@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+  <apiVersion>49.0</apiVersion>
+  <isExposed>true</isExposed>
+  <masterLabel>View Open Opportunities</masterLabel>
+  <targets>
+    <target>lightning__AppPage</target>
+    <target>lightning__RecordPage</target>
+    <target>lightning__HomePage</target>
+  </targets>
+  <targetConfigs>
+    <targetConfig targets="lightning__AppPage">
+      <property name="objectName" type="String">Opportunity</property>
+    </targetConfig>
+    <targetConfig targets="lightning__RecordPage">
+      <property name="objectName" type="String">Opportunity</property>
+    </targetConfig>
+    <targetConfig targets="lightning__HomePage" />
+  </targetConfigs>
+</LightningComponentBundle>
+
+<!--lwc.xml-->
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+  <isExposed>true</isExposed>
+  <targets>
+    <target>lightning__AppPage</target>
+    <target>lightning__RecordPage</target>
+    <target>lightning__HomePage</target>
+  </targets>
+  <targetConfigs>
+    <targetConfig targets="lightning__AppPage">
+      <property name="objectName" type="String">Opportunity</property>
+    </targetConfig>
+    <targetConfig targets="lightning__RecordPage">
+      <property name="objectName" type="String">Opportunity</property>
+    </targetConfig>
+    <targetConfig targets="lightning__HomePage" />
+  </targetConfigs>
+  <masterLabel>View Open Opportunities</masterLabel>
+  <description>A component to view all open Opportunities in a Salesforce UI.</description>
+  <components>
+    <component>
+      <masterLabel>OpportunityDatatable</masterLabel>
+      <description>A DataTable to display all open Opportunities.</description>
+      <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+      </targets>
+      <targetConfigs>
+        <targetConfig targets="lightning__AppPage">
+          <property name="objectName" type="String">Opportunity</property>
+        </targetConfig>
+        <targetConfig targets="lightning__RecordPage">
+          <property name="objectName" type="String">Opportunity</property>
+        </targetConfig>
+        <targetConfig targets="lightning__HomePage" />
+      </targetConfigs>
+      <aura:component>
+        <aura:attribute name="opportunities" type="Object[]"/>
+        <aura:attribute name="columns" type="List"/>
+        <aura:attribute name="sortBy" type="String"/>
+        <aura:attribute name="sortDirection" type="String"/>
+        <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+        <lightning:datatable data="{! v.opportunities }" columns="{! v.columns }" keyField="Id" hideCheckboxColumn="true" sortedBy="{!v.sortBy}" sortedDirection="{!v.sortDirection}" enableInlineEdit="true" showRowNumberColumn="true" />
+      </aura:component>
+    </component>
+  </components>
+</LightningComponentBundle>
