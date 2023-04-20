@@ -1,0 +1,69 @@
+<template>
+  <lightning-card title="View All Open Opportunities">
+    <lightning-datatable
+      data={data}
+      columns={columns}
+      key-field="id"
+      onrowselection={getSelectedName}
+      hide-checkbox-column="true"
+      show-row-number-column="true"
+      sorted-by={sortedBy.fieldName}
+      sorted-direction={sortedBy.sortDirection}
+      onsort={updateSort}
+      resize-column-disabled="true"
+      pagination
+      page-size={pageSize}
+    />
+  </lightning-card>
+</template>
+
+<script>
+  import { LightningElement, api, track } from "lwc";
+  import { ShowToastEvent } from "lightning/platformShowToastEvent";
+
+  const columns = [
+    { label: "Opportunity Name", fieldName: "oppName" },
+    { label: "Opportunity Owner", fieldName: "ownerName" },
+    { label: "Stage", fieldName: "stage" },
+    { label: "Amount", fieldName: "amount" },
+    { label: "Close Date", fieldName: "closeDate" },
+  ];
+
+  export default class ViewOpenOpportunities extends LightningElement {
+    @track data = [];
+    @track pageSize = 5;
+    @track sortedBy;
+
+    // Fetch all open opportunities
+    connectedCallback() {
+      fetch("/openOpportunities")
+        .then(response => response.json())
+        .then(data => {
+          this.data = data;
+        })
+        .catch(error => {
+          this.showToast("ERROR", error.body.message, "error");
+        });
+    }
+
+    // Get selected opportunity details
+    getSelectedName(event) {
+      this.selectedName = event.detail.selectedRows[0].oppName;
+    }
+
+    // Update the sorting state
+    updateSort(event) {
+      this.sortedBy = event.detail;
+    }
+
+    // Show toast with provided title, message and type
+    showToast(title, message, variant) {
+      const evt = new ShowToastEvent({
+        title: title,
+        message: message,
+        variant: variant
+      });
+      this.dispatchEvent(evt);
+    }
+  }
+</script>
